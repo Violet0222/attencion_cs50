@@ -52,7 +52,6 @@ def get_mask_token_index(mask_token_id, inputs):
     return None
 
 
-
 def get_color_for_attention_score(attention_score):
     """
     Return a tuple of three integers representing a shade of gray for the
@@ -61,7 +60,6 @@ def get_color_for_attention_score(attention_score):
     gray = int(255 * attention_score)
     
     return (gray, gray, gray)
-
 
 
 def visualize_attentions(tokens, attentions):
@@ -85,10 +83,10 @@ def visualize_attentions(tokens, attentions):
             draw = ImageDraw.Draw(img)
             
         for i, token in enumerate(tokens):
-                x = i * PIXELS_PER_WORD + 10
-                y = i * PIXELS_PER_WORD + 10
-                draw.text((x, 0), token, fill="black", font=FONT)
-                draw.text((0, y), token, fill="black", font=FONT)
+            x = i * PIXELS_PER_WORD + 10
+            y = i * PIXELS_PER_WORD + 10
+            draw.text((x, 0), token, fill="black", font=FONT)
+            draw.text((0, y), token, fill="black", font=FONT)
                 
         for i in range(len(tokens)):
             for j in range(len(tokens)):
@@ -103,7 +101,6 @@ def visualize_attentions(tokens, attentions):
         filename = f"attention_layer{layer_num}_head{head_num}.png"
         img.save(filename)
             
-
 
 def generate_diagram(layer_number, head_number, tokens, attention_weights):
     """

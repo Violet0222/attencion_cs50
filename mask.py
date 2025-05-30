@@ -58,8 +58,9 @@ def get_color_for_attention_score(attention_score):
     Return a tuple of three integers representing a shade of gray for the
     given `attention_score`. Each value should be in the range [0, 255].
     """
-    # TODO: Implement this function
-    raise NotImplementedError
+    gray = int(255 * (1 - attention_score))
+    
+    return (gray, gray, gray)
 
 
 
@@ -74,12 +75,34 @@ def visualize_attentions(tokens, attentions):
     (starting count from 1).
     """
     # TODO: Update this function to produce diagrams for all layers and heads.
-    generate_diagram(
-        1,
-        1,
-        tokens,
-        attentions[0][0][0]
-    )
+    
+    for layer_num, layer in enumerate(attentions, start=1):
+        layer = layer[0]
+        
+        for head_num, head in enumerate(layer, start=1):
+            size = len(tokens) * PIXELS_PER_WORD
+            img = Image.new("RGB", (size, size), color="white")
+            draw = ImageDraw.Draw(img)
+            
+        for i, token in enumerate(tokens):
+                x = i * PIXELS_PER_WORD + 10
+                y = i * PIXELS_PER_WORD + 10
+                draw.text((x, 0), token, fill="black", font=FONT)
+                draw.text((0, y), token, fill="black", font=FONT)
+                
+        for i in range(len(tokens)):
+            for j in range(len(tokens)):
+                score = float(head[i][j])
+                color = get_color_for_attention_score(score)
+                x0 = j * PIXELS_PER_WORD
+                y0 = i * PIXELS_PER_WORD
+                x1 = x0 + GRID_SIZE
+                y1 = y0 + GRID_SIZE
+                draw.rectangle([x0, y0, x1, y1], fill=color)
+    
+        filename = f"attention_layer{layer_num}_head{head_num}.png"
+        img.save(filename)
+            
 
 
 def generate_diagram(layer_number, head_number, tokens, attention_weights):
